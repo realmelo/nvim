@@ -1,3 +1,4 @@
 require("melo.remap")
-require("melo.theme")
-print("hello from melo")
+require("melo.clipboard")
+-- require("melo.theme")
+require("melo.options")

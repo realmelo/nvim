@@ -1,3 +1,3 @@
 require("melo")
+require("config.lazy")
 
-print("hello")

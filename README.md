@@ -1,168 +1,143 @@
 # 💤 My Neovim Config
 
-This is my personal Neovim configuration using **[Lazy.nvim](https://github.com/folke/lazy.nvim)** as the plugin manager.  
-I’m switching from VS Code → Neovim, so here are the plugins I use and the keybinds I rely on.
+This is my personal Neovim configuration using **[Lazy.nvim](https://github.com/folke/lazy.nvim)**.  
+It includes plugins for LSP, Treesitter, file explorer, fuzzy finding, Git, and more.  
 
 ---
 
 ## 📦 Plugins & Keymaps
 
 ### 🎨 Colorscheme
-- `moonfly`  
-  ```vim
-  :colorscheme moonfly
 
-🌲 Treesitter
+| Plugin | Action | Key / Command |
+|--------|--------|---------------|
+| moonfly | Set colorscheme | `:colorscheme moonfly` |
+
+---
+
+### 🌲 Treesitter
+
+| Action | Command |
+|--------|---------|
+| Install parser | `:TSInstall <lang>` |
+| Update parsers | `:TSUpdate` |
+| List installed parsers | `:TSInstallInfo` |
+
+---
+
+### 🔭 Telescope
+
+| Action | Keymap |
+|--------|--------|
+| Find files | `<leader>ff` |
+| Live grep | `<leader>fg` |
+| Buffers | `<leader>fb` |
+| Help tags | `<leader>fh` |
+
+---
+
+### 📌 Harpoon (quick file navigation)
+
+| Action | Keymap / Command |
+|--------|----------------|
+| Add current file | `:lua require("harpoon"):list():add()` |
+| Open harpoon menu | `:lua require("harpoon.ui"):toggle_quick_menu(require("harpoon"):list())` |
+| Jump to file 1 | `:lua require("harpoon"):list():select(1)` |
+| Jump to file 2 | `:lua require("harpoon"):list():select(2)` |
+
+---
+
+### 🌳 nvim-tree (file explorer)
+
+| Action | Keymap / Command |
+|--------|----------------|
+| Toggle file explorer | `<leader>e` |
+| Create file/directory | `a` |
+| Delete file/directory | `d` |
+| Rename | `r` |
+| Cut | `x` |
+| Copy | `c` |
+| Paste | `p` |
+| Copy filename | `y` |
+| Copy relative path | `Y` |
+| Copy absolute path | `gy` |
+| Open file | `Enter` / `o` |
+| Horizontal split | `s` |
+| Vertical split | `v` |
+| Open in new tab | `t` |
+| Close tree | `q` |
+
+---
+
+### 🔧 LSP (via mason + lspconfig)
+
+| Action | Keymap |
+|--------|--------|
+| Go to definition | `gd` |
+| Go to declaration | `gD` |
+| Go to implementation | `gi` |
+| List references | `gr` |
+| Hover documentation | `K` |
+| Rename symbol | `<leader>rn` |
+| Code action | `<leader>ca` |
+| Previous diagnostic | `[d` |
+| Next diagnostic | `]d` |
+| Show diagnostics | `<leader>e` |
+| Quickfix diagnostics | `<leader>q` |
+
+---
+
+### ⚡ Completion (nvim-cmp + LuaSnip + lspkind)
+
+| Action | Keymap |
+|--------|--------|
+| Next suggestion | `<C-n>` |
+| Previous suggestion | `<C-p>` |
+| Confirm selection | `<CR>` |
+| Expand snippet | `<Tab>` |
+| Jump backward in snippet | `<S-Tab>` |
+
+---
+
+### 🌱 Git (vim-fugitive)
+
+| Action | Command |
+|--------|---------|
+| Git status | `:Git` |
+| Commit | `:Git commit` |
+| Push | `:Git push` |
+| Pull | `:Git pull` |
+| Diff split view | `:Gdiffsplit` |
+| Git blame | `:Gblame` |
 
-Better syntax highlighting, folding, and code navigation.
+---
 
-:TSInstall <lang> → install a language parser
+## 🚀 Setup Notes
 
-:TSUpdate → update all parsers
+| Item | Details |
+|------|---------|
+| Plugin manager | Lazy.nvim |
+| Colorscheme | moonfly |
+| LSP servers | Installed via mason.nvim (`gopls`, `pyright`, `lua_ls`, `clangd`) |
+| Treesitter parsers | Auto-installed (`go`, `python`, `c`, `lua`, `vim`, `markdown`, …) |
 
-:TSInstallInfo → check installed parsers
+---
 
-🔭 Telescope
+## 📖 Legend
 
-Fuzzy finder for files, buffers, etc.
-Default keymaps:
+| Symbol | Meaning |
+|--------|---------|
+| `<leader>` | Your leader key (usually `Space`) |
+| Normal mode | No prefix unless stated |
+| Commands | `:Something` typed in command mode |
 
-<leader>ff → Find files
-
-<leader>fg → Live grep
-
-<leader>fb → Buffers
-
-<leader>fh → Help tags
-
-📌 Harpoon (quick file navigation)
-
-:lua require("harpoon"):list():add() → add current file
-
-:lua require("harpoon.ui"):toggle_quick_menu(require("harpoon"):list()) → open harpoon menu
-
-:lua require("harpoon"):list():select(1) → jump to file 1
-
-:lua require("harpoon"):list():select(2) → jump to file 2
-
-… and so on
-
-🌳 nvim-tree (file explorer, VS Code–like)
-
-<leader>e → toggle file explorer
-
-Inside the tree:
-
-a → create file/directory
-
-d → delete file/directory
-
-r → rename
-
-x → cut
-
-c → copy
-
-p → paste (move/copy)
-
-y → copy file name
-
-Y → copy relative path
-
-gy → copy absolute path
-
-Enter / o → open file
-
-s → open in horizontal split
-
-v → open in vertical split
-
-t → open in new tab
-
-q → close tree
-
-🔧 LSP (Language Server Protocol)
-
-Managed with mason.nvim + nvim-lspconfig.
-
-Common LSP keymaps:
-
-gd → Go to definition
-
-gD → Go to declaration
-
-gi → Go to implementation
-
-gr → List references
-
-K → Hover docs
-
-<leader>rn → Rename symbol
-
-<leader>ca → Code action
-
-[d → Previous diagnostic
-
-]d → Next diagnostic
-
-<leader>e → Show diagnostic
-
-<leader>q → Quickfix diagnostics list
-
-⚡ Completion (nvim-cmp + luasnip + lspkind)
-
-<C-n> → next suggestion
-
-<C-p> → previous suggestion
-
-<CR> → confirm selection
-
-<Tab> → expand snippet (via LuaSnip)
-
-<S-Tab> → jump backward in snippet
-
-🌱 Git (vim-fugitive)
-
-:Git → Git status
-
-:Git commit → Commit
-
-:Git push → Push
-
-:Git pull → Pull
-
-:Gdiffsplit → Diff split view
-
-:Gblame → Git blame
-
-🚀 Setup Notes
-
-Plugin manager: lazy.nvim
-
-Colorscheme: moonfly
-
-LSP servers installed via mason.nvim (gopls, pyright, lua_ls, clangd)
-
-Treesitter parsers auto-installed (go, python, c, lua, vim, markdown, …)
-
-📖 Legend
-
-<leader> = my leader key (usually Space)
-
-Normal mode = no prefix unless stated
-
-Commands (:Something) are typed in command mode
+---
 
 ✅ With this setup, I now have:
+- File explorer like VS Code (`nvim-tree`)  
+- Syntax highlighting + code navigation (`treesitter`)  
+- Fuzzy finder (`telescope`)  
+- Quick file marks (`harpoon`)  
+- LSP with autocomplete (`mason + lspconfig + cmp`)  
+- Git integration (`fugitive`)  
 
-File explorer like VS Code (nvim-tree)
-
-Syntax highlighting + code navigation (treesitter)
-
-Fuzzy finder (telescope)
-
-Quick file marks (harpoon)
-
-LSP with autocomplete (mason + lspconfig + cmp)
-
-Git integration (fugitive)
